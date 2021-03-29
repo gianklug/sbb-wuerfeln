@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBB-Würfeln</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            
+</head>
+<body>
+    <header>
+        <div id="logo">
+            <img src="img/logo.png" alt="SBB-Logo" height="22"></img> <b>SBB-Würfeln</b>
+        </div>
+    </header>
+    <br>
+    <br>
+    <br>
+    <br>
+    <hr class="separator">
+    <main>
+
+    <form class="search">
+        <input id="search" type="text" class="inputbox" name="destination" placeholder="Suche"> <button action="submit" class="sbb-button">Verbindungen suchen ➜</button>
+    </form>
+    <br />
+    <div class="connection">
+        <div class="platform">
+            <span id="platform"></span>
+        </div>
+        <div class="info">
+            <b><span id="train_type"></span></b> Richtung <span id="destination"></span>
+        </div>
+        <div class="time">
+            <b><span id="departure"></span></b>
+                <span class="chain_start">•</span>
+                <span class="chain_line"></span>
+                <span class="chain_stop">•</span>
+            
+            <b><span id="arrival"></span></b>
+        </div>
+        <div class="other">
+            ➜ <b onclick="nextConnection()"><span id="station"></span></b>
+            <br />
+            <span id="duration"></span>
+        </div>
+    </div>
+    </main>
+    <script src="js/script.js"></script>
+</body>
+</html>
