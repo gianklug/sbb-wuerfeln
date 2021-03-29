@@ -44,6 +44,8 @@ if (urlParams.get("destination") !== null) {
         var numPlatforms = [];
         //Loop through the Stationboard
         for (x in stationboard) {
+            //Log the current Platform cuz it's funny
+            console.log("Pl. "+currentPlatform);
 
             //Train is added by default
             addTrain=true;
@@ -56,7 +58,7 @@ if (urlParams.get("destination") !== null) {
                     console.log("Nice Train ("+stationboard[x]["category"]+")")
                 }else {
                     //Don't Add the Shit train
-                    console.log("Shit train")
+                    console.log("Shit train ("+stationboard[x]["category"]+")")
                     addTrain=false;
                 }
             }
@@ -71,14 +73,13 @@ if (urlParams.get("destination") !== null) {
                 platforms[currentPlatform] = new Array();
                 numPlatforms.push(currentPlatform);
             }
-            //Log the current Platform cuz it's funny
-            console.log(currentPlatform);
+
             //Add the current Connection info to the platform info for the current platform
             platforms[currentPlatform].push(stationboard[x]);
         }
         }
         //Log all Platforms
-        console.log(numPlatforms);
+        console.log("All Platforms \n"+numPlatforms);
         //Select a random platform
         var randomPlatform = numPlatforms[Math.floor(Math.random()*numPlatforms.length)];
         //Get all Stations for this Platform
@@ -89,12 +90,19 @@ if (urlParams.get("destination") !== null) {
         if (stationNumber==0) {stationNumber=1};
         //Select the random station from the stations list
         var randomStation = stations[stationNumber];
+        //Console log stuff because I like logs
+        console.log("Random Platform: "+randomPlatform);
+        console.log("Random Station: "+stationNumber);
+        console.log("Station Stats:");
+        console.log(randomStation);
+        console.log("Platform Stats:");
+        console.log(platforms);
         //If no arrival (Tunnel or stuff) ignore and select the last stop
-        if (String(randomStation["arrival"]) == "null") { randomStation = stations[stations.length]; }
+        if (String(randomStation["arrival"]) == "null") { randomStation = stations[stations.length-1];}
         //Get the coordinates for future geofencing
         var coordinates = randomStation["location"]["coordinate"]["x"]+","+randomStation["location"]["coordinate"]["y"];
         //Log the fancy pair of coordinates
-        console.log(coordinates);
+        console.log("Coordinates of Destination: "+coordinates);
         //Set the arrival as Date Object
         var arrival = new Date(randomStation["arrival"]);
         //Set the departure as date object
@@ -130,11 +138,6 @@ if (urlParams.get("destination") !== null) {
         $( ".connection" ).fadeIn();
         //Play the animation
         animate();
-        //Console log stuff because I like logs
-        console.log("RANDOM STATION");
-        console.log(randomStation["station"]["name"]);
-        console.log(platforms[randomPlatform]);
-        console.log(platforms);
         }
     };
     //Get the url
