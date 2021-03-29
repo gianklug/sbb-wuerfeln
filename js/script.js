@@ -26,6 +26,8 @@ $( ".time" ).hide();
 if (urlParams.get("destination") !== null) {
     //Set Search box Value to Destination
     document.getElementById("search").value  = urlParams.get("destination");
+
+    if(urlParams.get("filter")=="long") { document.getElementById("long-distance").checked = true; }
     //New Request
     var xhttp = new XMLHttpRequest();
     //On Request Done
@@ -42,10 +44,27 @@ if (urlParams.get("destination") !== null) {
         var numPlatforms = [];
         //Loop through the Stationboard
         for (x in stationboard) {
+
+            //Train is added by default
+            addTrain=true;
+
+            //Shit train filter
+            //Get "Long PArameter"
+            if (urlParams.get("filter")=="long"){
+                //Check if not a shit train
+                if (stationboard[x]["category"]!=="S" && stationboard[x]["category"]!=="R" && stationboard[x]["category"]!=="RE" && stationboard[x]["category"]!=="TER") {
+                    console.log("Nice Train ("+stationboard[x]["category"]+")")
+                }else {
+                    //Don't Add the Shit train
+                    console.log("Shit train")
+                    addTrain=false;
+                }
+            }
+            
             //Get the Current Platform
             currentPlatform = parseInt(stationboard[x]["stop"]["platform"]);
             //Ignore Trams and Stuff
-            if (String(currentPlatform)!="NaN"){
+            if (String(currentPlatform)!="NaN" && !addTrain == false){
             //If Key for Platform doesn't exist in Platforms Array
             if (!platforms.hasOwnProperty(currentPlatform))  {
                 //Create Sub-Array for the current Platform
