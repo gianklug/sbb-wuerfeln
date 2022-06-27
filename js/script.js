@@ -14,7 +14,10 @@ function pad(num, size) {
 
 //Redirect to next connection
 function nextConnection() {
-    window.open("https://sbb.gk.wtf?destination="+document.getElementById("station").innerHTML);
+    let url = "https://sbb.gk.wtf?destination="
+        +document.getElementById("station").innerHTML
+        +"&datetime="+new Date().toISOString().slice(0, 10)+document.getElementById("arrival").innerHTML
+    window.open(url);
 }
 
 //Hide everything on load
@@ -38,7 +41,7 @@ if (urlParams.get("destination") !== null) {
         var stationboard = JSON.parse(xhttp.responseText).stationboard;
         //Empty List for Platforms
         var platforms = { };
-        //Defining Currentplatform 
+        //Defining Currentplatform
         var currentPlatform = 0;
         //Defining List with all Platform numbers
         var numPlatforms = [];
@@ -62,7 +65,7 @@ if (urlParams.get("destination") !== null) {
                     addTrain=false;
                 }
             }
-            
+
             //Get the Current Platform
             currentPlatform = parseInt(stationboard[x]["stop"]["platform"]);
             //Ignore Trams and Stuff
@@ -110,7 +113,7 @@ if (urlParams.get("destination") !== null) {
         //Calculate the Difference
         var timediff = new Date(arrival-departure);
         //Weird async function magic
-        async function animate () { 
+        async function animate () {
             //Loop through all Platforms
             for (x in numPlatforms) {
                 //Display stuff
@@ -140,8 +143,17 @@ if (urlParams.get("destination") !== null) {
         animate();
         }
     };
+    //Create url
+    let url = "https://transport.opendata.ch/v1/stationboard?station="
+        +urlParams.get("destination")
+        +"&limit=49";
+    //Add datetime parameter to url
+    if (urlParams.get("datetime") != null){
+      url += "&datetime="+urlParams.get("datetime")
+    }
+
     //Get the url
-    xhttp.open("GET", "https://transport.opendata.ch/v1/stationboard?station="+urlParams.get("destination")+"&limit=49", true);
+    xhttp.open("GET", url, true);
     //Send the Request
     xhttp.send();
 }
